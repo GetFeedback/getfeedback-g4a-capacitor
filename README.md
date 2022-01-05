@@ -13,24 +13,182 @@ npx cap sync
 
 <docgen-index>
 
-* [`echo(...)`](#echo)
+* [`initialize(...)`](#initialize)
+* [`setDebugEnabled(...)`](#setdebugenabled)
+* [`setCustomVariables(...)`](#setcustomvariables)
+* [`loadFeedbackForm(...)`](#loadfeedbackform)
+* [`loadFeedbackFormWithCurrentViewScreenshot(...)`](#loadfeedbackformwithcurrentviewscreenshot)
+* [`sendEvent(...)`](#sendevent)
+* [`resetCampaignData()`](#resetcampaigndata)
+* [`dismiss()`](#dismiss)
+* [`loadLocalizedStringFile(...)`](#loadlocalizedstringfile)
+* [`preloadFeedbackForms(...)`](#preloadfeedbackforms)
+* [`removeCachedForms()`](#removecachedforms)
+* [`setDataMasking(...)`](#setdatamasking)
+* [`getDefaultDataMasks()`](#getdefaultdatamasks)
 
 </docgen-index>
 
 <docgen-api>
 <!--Update the source file JSDoc comments and rerun docgen to update the docs below-->
 
-### echo(...)
+### initialize(...)
 
 ```typescript
-echo(options: { value: string; }) => Promise<{ value: string; }>
+initialize(options: { appID: string; }) => void
 ```
 
 | Param         | Type                            |
 | ------------- | ------------------------------- |
-| **`options`** | <code>{ value: string; }</code> |
+| **`options`** | <code>{ appID: string; }</code> |
 
-**Returns:** <code>Promise&lt;{ value: string; }&gt;</code>
+--------------------
+
+
+### setDebugEnabled(...)
+
+```typescript
+setDebugEnabled(options: { debugEnabled: boolean; }) => void
+```
+
+| Param         | Type                                    |
+| ------------- | --------------------------------------- |
+| **`options`** | <code>{ debugEnabled: boolean; }</code> |
+
+--------------------
+
+
+### setCustomVariables(...)
+
+```typescript
+setCustomVariables(options: { customVariables: any; }) => void
+```
+
+| Param         | Type                                   |
+| ------------- | -------------------------------------- |
+| **`options`** | <code>{ customVariables: any; }</code> |
+
+--------------------
+
+
+### loadFeedbackForm(...)
+
+```typescript
+loadFeedbackForm(options: { formID: string; }) => Promise<any>
+```
+
+| Param         | Type                             |
+| ------------- | -------------------------------- |
+| **`options`** | <code>{ formID: string; }</code> |
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### loadFeedbackFormWithCurrentViewScreenshot(...)
+
+```typescript
+loadFeedbackFormWithCurrentViewScreenshot(options: { formID: string; }) => Promise<any>
+```
+
+| Param         | Type                             |
+| ------------- | -------------------------------- |
+| **`options`** | <code>{ formID: string; }</code> |
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### sendEvent(...)
+
+```typescript
+sendEvent(options: { eventName: string; }) => Promise<any>
+```
+
+| Param         | Type                                |
+| ------------- | ----------------------------------- |
+| **`options`** | <code>{ eventName: string; }</code> |
+
+**Returns:** <code>Promise&lt;any&gt;</code>
+
+--------------------
+
+
+### resetCampaignData()
+
+```typescript
+resetCampaignData() => void
+```
+
+--------------------
+
+
+### dismiss()
+
+```typescript
+dismiss() => void
+```
+
+--------------------
+
+
+### loadLocalizedStringFile(...)
+
+```typescript
+loadLocalizedStringFile(options: { localizedStringFile: string; }) => void
+```
+
+| Param         | Type                                          |
+| ------------- | --------------------------------------------- |
+| **`options`** | <code>{ localizedStringFile: string; }</code> |
+
+--------------------
+
+
+### preloadFeedbackForms(...)
+
+```typescript
+preloadFeedbackForms(options: { formIDs: string[]; }) => void
+```
+
+| Param         | Type                                |
+| ------------- | ----------------------------------- |
+| **`options`** | <code>{ formIDs: string[]; }</code> |
+
+--------------------
+
+
+### removeCachedForms()
+
+```typescript
+removeCachedForms() => void
+```
+
+--------------------
+
+
+### setDataMasking(...)
+
+```typescript
+setDataMasking(options: { masks: string[]; character: string; }) => void
+```
+
+| Param         | Type                                                 |
+| ------------- | ---------------------------------------------------- |
+| **`options`** | <code>{ masks: string[]; character: string; }</code> |
+
+--------------------
+
+
+### getDefaultDataMasks()
+
+```typescript
+getDefaultDataMasks() => string[]
+```
+
+**Returns:** <code>string[]</code>
 
 --------------------
 
