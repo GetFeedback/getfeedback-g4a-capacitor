@@ -9,8 +9,6 @@ import UIKit
  */
 @objc(GetFeedbackCapacitorPlugin)
 public class GetFeedbackCapacitorPlugin: CAPPlugin {
-    private let implementation = GetFeedbackCapacitor()
-
     var passiveCallID: String?
     var campaignCallID: String?
 

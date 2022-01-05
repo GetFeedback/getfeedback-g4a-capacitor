@@ -41,9 +41,7 @@ import java.util.Map;
 @CapacitorPlugin(name = "GetFeedbackCapacitor")
 public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCallback {
 
-    private GetFeedbackCapacitor implementation = new GetFeedbackCapacitor();
-
-    private Usabilla usabilla = Usabilla.INSTANCE;
+    private Usabilla getfeedback = Usabilla.INSTANCE;
     private static final String LOG_TAG = "Usabilla Ionic Bridge";
     private Fragment form;
     public static final String FRAGMENT_TAG = "passive form";
@@ -101,21 +99,12 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
     }
 
     @PluginMethod
-    public void echo(PluginCall call) {
-        String value = call.getString("value");
-
-        JSObject ret = new JSObject();
-        ret.put("value", implementation.echo(value));
-        call.resolve(ret);
-    }
-
-    @PluginMethod
     public void initialize(@NotNull PluginCall call) {
         String appID = call.getString("appID");
         final Activity activity = getActivity();
         if (activity != null) {
-            usabilla.initialize(activity.getBaseContext(), appID);
-            usabilla.updateFragmentManager(((FragmentActivity) activity).getSupportFragmentManager());
+            getfeedback.initialize(activity.getBaseContext(), appID);
+            getfeedback.updateFragmentManager(((FragmentActivity) activity).getSupportFragmentManager());
             return;
         }
         Log.e(LOG_TAG, "Initialisation not possible. Android activity is null");
@@ -126,7 +115,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         String formID = call.getString("formID");
         call.setKeepAlive(true);
         passiveCallbackId = call.getCallbackId();
-        usabilla.loadFeedbackForm(formID, null, null,this);
+        getfeedback.loadFeedbackForm(formID, null, null,this);
     }
 
     @PluginMethod
@@ -136,8 +125,8 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         passiveCallbackId = call.getCallbackId();
         final Activity activity = getActivity();
         if (activity != null) {
-            final Bitmap screenshot = usabilla.takeScreenshot(activity);
-            usabilla.loadFeedbackForm(formID, screenshot, this);
+            final Bitmap screenshot = getfeedback.takeScreenshot(activity);
+            getfeedback.loadFeedbackForm(formID, screenshot, this);
             return;
         }
         Log.e(LOG_TAG, "Loading feedback form not possible. Android activity is null");
@@ -150,12 +139,12 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         for (int i = 0; i < formIDs.length(); i++) {
             listformIDs.add(formIDs.getString(i));
         }
-        usabilla.preloadFeedbackForms(listformIDs);
+        getfeedback.preloadFeedbackForms(listformIDs);
     }
 
     @PluginMethod
     public void removeCachedForms(@NotNull PluginCall call) {
-        usabilla.removeCachedForms();
+        getfeedback.removeCachedForms();
     }
 
     @PluginMethod
@@ -175,7 +164,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
                 customVariables.put(key, value);
             }
         }
-        usabilla.setCustomVariables(customVariables);
+        getfeedback.setCustomVariables(customVariables);
     }
 
     @PluginMethod
@@ -185,7 +174,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         campaignCallbackId = call.getCallbackId();
         final Activity activity = getActivity();
         if (activity != null) {
-            usabilla.sendEvent(activity.getBaseContext(), eventName);
+            getfeedback.sendEvent(activity.getBaseContext(), eventName);
             return;
         }
         Log.e(LOG_TAG, "Sending event to Usabilla is not possible. Android activity is null");
@@ -195,7 +184,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
     public void resetCampaignData(@NotNull PluginCall call) {
         final Activity activity = getActivity();
         if (activity != null) {
-            usabilla.resetCampaignData(activity.getBaseContext());
+            getfeedback.resetCampaignData(activity.getBaseContext());
             return;
         }
         Log.e(LOG_TAG, "Resetting Usabilla campaigns is not possible. Android activity is null");
@@ -205,7 +194,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
     public boolean dismiss(@NotNull PluginCall call) {
         final Activity activity = getActivity();
         if (activity != null) {
-            return usabilla.dismiss(activity.getBaseContext());
+            return getfeedback.dismiss(activity.getBaseContext());
         }
         Log.e(LOG_TAG, "Dismissing the Usabilla form is not possible. Android activity is null");
         return false;
@@ -215,7 +204,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
     @PluginMethod
     public void setDebugEnabled(@NonNull PluginCall call) {
         final boolean debugEnabled = call.getBoolean("debugEnabled");
-        usabilla.setDebugEnabled(debugEnabled);
+        getfeedback.setDebugEnabled(debugEnabled);
     }
 
     @PluginMethod
@@ -227,7 +216,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         for (int i = 0; i < masks.length(); i++) {
             listMasks.add(masks.getString(i));
         }
-        usabilla.setDataMasking(listMasks, character.charAt(0));
+        getfeedback.setDataMasking(listMasks, character.charAt(0));
     }
 
     @PluginMethod

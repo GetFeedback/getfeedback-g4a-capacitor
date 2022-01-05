@@ -1,6 +1,6 @@
 {
   "name": "getfeedback-capacitor",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "description": "GetFeedback Capacitor is wrapper for GetFeedback SDK.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
