@@ -49,6 +49,8 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
     private static final String KEY_ABANDONED_PAGE_INDEX = "abandonedPageIndex";
     private static final String KEY_RATING = "rating";
     private static final String KEY_SENT = "sent";
+    private static final JSArray defaultDataMasks = new JSArray(UbConstants.getDefaultDataMasks());
+    private static final String defaultMaskCharacter = "X";
 
     private String passiveCallbackId;
     private String campaignCallbackId;
@@ -209,31 +211,15 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
 
     @PluginMethod
     public void setDataMasking(@NonNull PluginCall call) {
-        JSArray masks = call.getArray("masks");
-        String character = call.getString("character");
-        if((masks != null) || (character != null && !character.isEmpty())) {
-            if((masks != null) && (character != null && !character.isEmpty())) {
-                List<String> listMasks = null;
-                try {
-                    listMasks = masks.toList();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                getfeedback.setDataMasking(listMasks, character.charAt(0));
-            } else if (masks != null) {
-                List<String> listMasks = null;
-                try {
-                    listMasks = masks.toList();
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                getfeedback.setDataMasking(listMasks);
-            } else if (character != null && !character.isEmpty()) {
-                getfeedback.setDataMasking(UbConstants.getDefaultDataMasks(), character.charAt(0));
-            }
-        } else {
-            getfeedback.setDataMasking();
+        JSArray masks = call.getArray("masks",defaultDataMasks);
+        String character = call.getString("character",defaultMaskCharacter);
+        List<String> listMasks = null;
+        try {
+            listMasks = masks.toList();
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
+        getfeedback.setDataMasking(listMasks, character.charAt(0));
     }
 
     @PluginMethod

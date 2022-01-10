@@ -103,16 +103,9 @@ public class GetFeedbackCapacitorPlugin: CAPPlugin {
     }
     
     @objc func setDataMasking(_ call: CAPPluginCall) {
-        if let maskCharacter = call.getString("character")?.first, let mask = call.options["masks"] as? [String] {
-            getfeedback.setDataMasking(masks: mask, maskCharacter: maskCharacter)
-        } else if let mask = call.options["masks"] as? [String] {
-            getfeedback.setDataMasking(masks: mask)
-        } else if let maskCharacter = call.getString("character")?.first {
-            getfeedback.setDataMasking(maskCharacter: maskCharacter)
-        }
-        else {
-            getfeedback.setDataMasking()
-        }
+        let masks = call.options["masks"] as? [String] ?? getfeedback.defaultDataMasks
+        let maskChar = call.getString("character")?.first ?? "X"
+        Usabilla.setDataMasking(masks: masks, maskCharacter: maskChar)
     }
 }
 
