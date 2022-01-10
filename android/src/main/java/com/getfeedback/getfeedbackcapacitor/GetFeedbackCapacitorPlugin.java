@@ -208,21 +208,44 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
     }
 
     @PluginMethod
-    public void setDataMasking(@NonNull PluginCall call) throws JSONException {
+    public void setDataMasking(@NonNull PluginCall call) {
         JSArray masks = call.getArray("masks");
-        String character = call.getString("maskChar");
-
-        List<String> listMasks = new ArrayList<>();
-        for (int i = 0; i < masks.length(); i++) {
-            listMasks.add(masks.getString(i));
+        String character = call.getString("character");
+        if((masks != null) || (character != null && !character.isEmpty())) {
+            if((masks != null) && (character != null && !character.isEmpty())) {
+                List<String> listMasks = null;
+                try {
+                    listMasks = masks.toList();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                getfeedback.setDataMasking(listMasks, character.charAt(0));
+            } else if (masks != null) {
+                List<String> listMasks = null;
+                try {
+                    listMasks = masks.toList();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                getfeedback.setDataMasking(listMasks);
+            } else if (character != null && !character.isEmpty()) {
+                getfeedback.setDataMasking(UbConstants.getDefaultDataMasks(), character.charAt(0));
+            }
+        } else {
+            getfeedback.setDataMasking();
         }
-        getfeedback.setDataMasking(listMasks, character.charAt(0));
     }
 
     @PluginMethod
     public void getDefaultDataMasks(@NonNull PluginCall call) {
         final JSObject result = new JSObject();
-        result.put(DEFAULT_DATA_MASKS, UbConstants.getDefaultDataMasks());
+        String[] array = UbConstants.getDefaultDataMasks().toArray(new String[0]);
+        try {
+            result.put(DEFAULT_DATA_MASKS, new JSArray(array));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        call.resolve(result);
     }
 
     @Override
