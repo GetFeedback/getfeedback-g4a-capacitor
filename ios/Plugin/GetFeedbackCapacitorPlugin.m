@@ -16,5 +16,5 @@ CAP_PLUGIN(GetFeedbackCapacitorPlugin, "GetFeedbackCapacitor",
            CAP_PLUGIN_METHOD(removeCachedForms, CAPPluginReturnNone);
            CAP_PLUGIN_METHOD(resetCampaignData, CAPPluginReturnNone);
            CAP_PLUGIN_METHOD(dismiss, CAPPluginReturnNone);
-           CAP_PLUGIN_METHOD(getDefaultDataMasks, CAPPluginReturnNone);
+           CAP_PLUGIN_METHOD(getDefaultDataMasks, CAPPluginReturnPromise);
 )

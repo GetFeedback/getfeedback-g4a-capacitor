@@ -12,22 +12,23 @@ public class GetFeedbackCapacitorPlugin: CAPPlugin {
     var passiveCallID: String?
     var campaignCallID: String?
 
+    let getfeedback = Usabilla.self
     override public func load() {
-        Usabilla.delegate = self
+        getfeedback.delegate = self
     }
 
     @objc weak var formNavigationController: UINavigationController?
 
     @objc func initialize(_ call: CAPPluginCall) {
         let appID = call.getString("appID") ?? ""
-        Usabilla.initialize(appID: appID)
+        getfeedback.initialize(appID: appID)
     }
     
     @objc func loadFeedbackForm(_ call: CAPPluginCall) {
         let formID = call.getString("formID") ?? ""
         self.bridge?.saveCall(call)
         passiveCallID = call.callbackId
-        Usabilla.loadFeedbackForm(formID)
+        getfeedback.loadFeedbackForm(formID)
     }
     
     @objc func loadFeedbackFormWithCurrentViewScreenshot(_ call: CAPPluginCall) {
@@ -35,9 +36,9 @@ public class GetFeedbackCapacitorPlugin: CAPPlugin {
         self.bridge?.saveCall(call)
         passiveCallID = call.callbackId
         DispatchQueue.main.sync {
-            if let rootVC = UIApplication.shared.keyWindow?.rootViewController {
+            if let rootVC = UIApplication.shared.windows.first?.rootViewController {
               let screenshot = self.takeScreenshot(view: rootVC.view)
-                Usabilla.loadFeedbackForm(formID, screenshot: screenshot)
+                getfeedback.loadFeedbackForm(formID, screenshot: screenshot)
           }
         }
     }
@@ -47,18 +48,18 @@ public class GetFeedbackCapacitorPlugin: CAPPlugin {
           call.reject("Must provide formIDs")
           return
         }
-        Usabilla.preloadFeedbackForms(withFormIDs: formIDs)
+        getfeedback.preloadFeedbackForms(withFormIDs: formIDs)
     }
     
     @objc func removeCachedForms(_ call: CAPPluginCall) {
-        Usabilla.removeCachedForms()
+        getfeedback.removeCachedForms()
     }
     
     @objc func sendEvent(_ call: CAPPluginCall) {
         let eventName = call.getString("eventName") ?? ""
         self.bridge?.saveCall(call)
         campaignCallID = call.callbackId
-        Usabilla.sendEvent(event: eventName)
+        getfeedback.sendEvent(event: eventName)
     }
     
     @objc func setCustomVariables(_ call: CAPPluginCall) {
@@ -67,7 +68,7 @@ public class GetFeedbackCapacitorPlugin: CAPPlugin {
             print("ERROR : Expected customVariables as Dictionary of String [String : String]")
             return
         }
-        Usabilla.customVariables = variables
+        getfeedback.customVariables = variables
     }
     
     @objc func setDebugEnabled(_ call: CAPPluginCall) {
@@ -75,42 +76,43 @@ public class GetFeedbackCapacitorPlugin: CAPPlugin {
             call.reject("Must provide debugEnabled")
             return
         }
-        Usabilla.debugEnabled = debugEnabled
+        getfeedback.debugEnabled = debugEnabled
     }
     
     @objc func loadLocalizedStringFile(_ call: CAPPluginCall) {
         let localizedStringFile = call.getString("localizedStringFile") ?? ""
-        Usabilla.localizedStringFile = localizedStringFile
+        getfeedback.localizedStringFile = localizedStringFile
     }
     
     func takeScreenshot(view: UIView) -> UIImage {
-        return Usabilla.takeScreenshot(view)!
+        return getfeedback.takeScreenshot(view)!
     }
     
     @objc func resetCampaignData(_ call: CAPPluginCall) {
-        Usabilla.resetCampaignData {
+        getfeedback.resetCampaignData {
         }
     }
 
     @objc func dismiss(_ call: CAPPluginCall) {
-        let _ = Usabilla.dismiss()
+        let _ = getfeedback.dismiss()
     }
     
     @objc func getDefaultDataMasks(_ call: CAPPluginCall) {
-        let str = Usabilla.defaultDataMasks
-        call.resolve(["value": str])
+        let str = getfeedback.defaultDataMasks
+        call.resolve(["DEFAULT_DATA_MASKS": str])
     }
     
     @objc func setDataMasking(_ call: CAPPluginCall) {
-        guard let masks = call.options["masks"] as? [String] else {
-          call.reject("Must provide masks")
-          return
+        if let maskCharacter = call.getString("character")?.first, let mask = call.options["masks"] as? [String] {
+            getfeedback.setDataMasking(masks: mask, maskCharacter: maskCharacter)
+        } else if let mask = call.options["masks"] as? [String] {
+            getfeedback.setDataMasking(masks: mask)
+        } else if let maskCharacter = call.getString("character")?.first {
+            getfeedback.setDataMasking(maskCharacter: maskCharacter)
         }
-        let maskChar = call.getString("maskChar") ?? ""
-        guard let maskCharacter = maskChar.first else {   Usabilla.setDataMasking(masks: Usabilla.defaultDataMasks, maskCharacter: "X")
-            return
+        else {
+            getfeedback.setDataMasking()
         }
-        Usabilla.setDataMasking(masks: masks, maskCharacter: maskCharacter)
     }
 }
 

@@ -10,6 +10,6 @@ export interface GetFeedbackCapacitorPlugin {
   loadLocalizedStringFile(options: { localizedStringFile: string }): void;
   preloadFeedbackForms(options: { formIDs: string[] }): void;
   removeCachedForms(): void;
-  setDataMasking(options: { masks: string[], character: string }): void;
-  getDefaultDataMasks(): string[];
+  setDataMasking(options?: { masks?: string[], character?: string }): void;
+  getDefaultDataMasks(): Promise<any>;
 }

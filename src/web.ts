@@ -50,7 +50,7 @@ export class GetFeedbackCapacitorWeb
     console.log('setDataMasking', options);
     throw new Error('Method not implemented.');
   }
-  getDefaultDataMasks(): string[] {
+  getDefaultDataMasks(): Promise<any> {
     throw new Error('Method not implemented.');
   }
 }

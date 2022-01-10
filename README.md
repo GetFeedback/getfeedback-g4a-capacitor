@@ -172,12 +172,12 @@ removeCachedForms() => void
 ### setDataMasking(...)
 
 ```typescript
-setDataMasking(options: { masks: string[]; character: string; }) => void
+setDataMasking(options?: { masks?: string[] | undefined; character?: string | undefined; } | undefined) => void
 ```
 
-| Param         | Type                                                 |
-| ------------- | ---------------------------------------------------- |
-| **`options`** | <code>{ masks: string[]; character: string; }</code> |
+| Param         | Type                                                   |
+| ------------- | ------------------------------------------------------ |
+| **`options`** | <code>{ masks?: string[]; character?: string; }</code> |
 
 --------------------
 
@@ -185,10 +185,10 @@ setDataMasking(options: { masks: string[]; character: string; }) => void
 ### getDefaultDataMasks()
 
 ```typescript
-getDefaultDataMasks() => string[]
+getDefaultDataMasks() => Promise<any>
 ```
 
-**Returns:** <code>string[]</code>
+**Returns:** <code>Promise&lt;any&gt;</code>
 
 --------------------
 
