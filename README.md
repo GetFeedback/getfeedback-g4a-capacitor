@@ -1,13 +1,38 @@
-# getfeedback-g4a-capacitor
+[![license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://github.com/GetFeedback/getfeedback-g4a-capacitor/blob/main/LICENSE)
 
-GetFeedback Capacitor is wrapper for GetFeedback SDK.
 
-## Install
+# GetFeedback for Apps - Capacitor
 
+GetFeedback for Apps allows you to collect feedback from your users with great ease and flexibility.
+This Capacitor bridge to the Native GetFeedback / Usabilla SDK allows you to load passive feedback forms and submit results from a Ionic Capcitor app. This release uses the GetFeedback / Usabilla SDK for ios v6.10+ and android v7.+ .
+
+- [GetFeedback for Apps - Capacitor](#getfeedback-for-apps---capacitor)
+  - [Installation](#installation)
+  - [Native SDK](#native-sdk)
+  - [API](#api)
+  - [Support](#support)
+
+## Installation
+
+The installation of this SDK consists out of two parts, one part for your projects a whole and the second part for iOS(#ios) and Android(#android) specifically. To install the GetFeedback SDK into your Ionic Application:
+Installation
+
+In a terminal window, navigate to the root directory of your project and run :
+
+```bash
+npm i -S https://github.com/GetFeedback/getfeedback-g4a-capacitor.git
+``` 
+or
 ```bash
 npm install getfeedback-capacitor
 npx cap sync
-```
+``` 
+
+## Native SDK
+
+To read in detail about all the features for the SDK 
+  - [iOS SDK](https://github.com/usabilla/usabilla-u4a-ios-swift-sdk/blob/master/Readme.MD)
+  - [Android SDK](https://github.com/usabilla/usabilla-u4a-android-sdk/blob/master/README.md)
 
 ## API
 
@@ -193,3 +218,7 @@ getDefaultDataMasks() => Promise<any>
 --------------------
 
 </docgen-api>
+
+## Support
+
+If you require help with the implementation, want to report an issue, or have a question please reach out to our Support Team via support@usabilla.com. When contacting our Support Team please make sure you include your Usabilla Account Name and the name of your Customer Success Manager.
