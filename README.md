@@ -4,7 +4,7 @@
 # GetFeedback for Apps - Capacitor
 
 GetFeedback for Apps allows you to collect feedback from your users with great ease and flexibility.
-This Capacitor bridge to the Native GetFeedback / Usabilla SDK allows you to load passive feedback forms and submit results from a Ionic Capcitor app. This release uses the GetFeedback / Usabilla SDK for ios v6.10+ and android v7.+ .
+This Capacitor bridge to the Native GetFeedback / Usabilla SDK allows you to load passive feedback forms or campaigns and submit results from an Ionic Capcitor app. This release uses the GetFeedback / Usabilla SDK for ios v6.10+ and android v7.+ .
 
 - [GetFeedback for Apps - Capacitor](#getfeedback-for-apps---capacitor)
   - [Installation](#installation)
@@ -14,7 +14,7 @@ This Capacitor bridge to the Native GetFeedback / Usabilla SDK allows you to loa
 
 ## Installation
 
-The installation of this SDK consists out of two parts, one part for your projects a whole and the second part for iOS(#ios) and Android(#android) specifically. To install the GetFeedback SDK into your Ionic Application:
+The installation of this SDK consists of two parts, one part for your projects a whole and the second part for iOS(#ios) and Android(#android) specifically. To install the GetFeedback SDK into your Ionic Application:
 Installation
 
 In a terminal window, navigate to the root directory of your project and run :
@@ -221,4 +221,4 @@ getDefaultDataMasks() => Promise<any>
 
 ## Support
 
-If you require help with the implementation, want to report an issue, or have a question please reach out to our Support Team via support@usabilla.com. When contacting our Support Team please make sure you include your Usabilla Account Name and the name of your Customer Success Manager.
+If you need help with implementation, want to report an issue or have a question, please contact our support team via support@usabilla.com. When contacting our support team, be sure to include your Usabilla account name and the name of your Customer Success Manager.
