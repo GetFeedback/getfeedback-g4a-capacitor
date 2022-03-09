@@ -50,6 +50,7 @@ repositories {
 
 dependencies {
     implementation project(':capacitor-android')
-    implementation 'com.usabilla.sdk:ubform:7.+'
+    /* TODO: Revert back ubform to semantic-version for all minor & patches ~ 7.+ */
+    implementation 'com.usabilla.sdk:ubform:7.4.0'
     implementation "androidx.appcompat:appcompat:$androidxAppCompatVersion"
 }
