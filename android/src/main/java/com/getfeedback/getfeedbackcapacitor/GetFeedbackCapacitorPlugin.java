@@ -54,6 +54,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
 
     private String passiveCallbackId;
     private String campaignCallbackId;
+    private String standardEventsCallID;
 
     private BroadcastReceiver closingCampaignReceiver = new BroadcastReceiver() {
         @Override
@@ -61,8 +62,13 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
             if (intent != null) {
                 final JSObject result = prepareResult(intent, FeedbackResult.INTENT_FEEDBACK_RESULT_CAMPAIGN);
                 PluginCall call = bridge.getSavedCall(campaignCallbackId);
-                call.resolve(result);
-                bridge.releaseCall(call);
+                if (call != null) {
+                    call.resolve(result);
+                    bridge.releaseCall(call);
+                } else {
+                    PluginCall callStandardEvent =  bridge.getSavedCall(standardEventsCallID);
+                    callStandardEvent.resolve(result);
+                }
             }
         }
     };
@@ -112,10 +118,17 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         Log.e(LOG_TAG, "Initialisation not possible. Android activity is null");
     }
 
+    @PluginMethod(returnType = PluginMethod.RETURN_CALLBACK)
+    public void standardEvents(@NotNull PluginCall call) {
+        bridge.saveCall(call);
+        call.setKeepAlive(true);
+        standardEventsCallID = call.getCallbackId();
+    }
+
     @PluginMethod
     public void loadFeedbackForm(@NotNull PluginCall call) {
         String formID = call.getString("formID");
-        call.setKeepAlive(true);
+        bridge.saveCall(call);
         passiveCallbackId = call.getCallbackId();
         getfeedback.loadFeedbackForm(formID, null, null,this);
     }
@@ -123,7 +136,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
     @PluginMethod
     public void loadFeedbackFormWithCurrentViewScreenshot(@NotNull PluginCall call) {
         String formID = call.getString("formID");
-        call.setKeepAlive(true);
+        bridge.saveCall(call);
         passiveCallbackId = call.getCallbackId();
         final Activity activity = getActivity();
         if (activity != null) {
@@ -172,7 +185,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
     @PluginMethod
     public void sendEvent(@NotNull PluginCall call) {
         String eventName = call.getString("eventName");
-        call.setKeepAlive(true);
+        bridge.saveCall(call);
         campaignCallbackId = call.getCallbackId();
         final Activity activity = getActivity();
         if (activity != null) {

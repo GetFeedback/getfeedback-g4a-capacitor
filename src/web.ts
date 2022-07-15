@@ -1,12 +1,18 @@
 import { WebPlugin } from '@capacitor/core';
 
-import type { GetFeedbackCapacitorPlugin } from './definitions';
+import type { GetFeedbackCapacitorPlugin, standardEventsCallback, CallbackID } from './definitions';
 
 export class GetFeedbackCapacitorWeb
   extends WebPlugin
   implements GetFeedbackCapacitorPlugin {
   initialize(options: { appID: string; }): void {
     console.log('initialize', options);
+    throw new Error('Method not implemented.');
+  }
+ 
+  async standardEvents(callback: standardEventsCallback,
+  ): Promise<CallbackID> {
+    console.log("standardEvents", callback);
     throw new Error('Method not implemented.');
   }
   loadFeedbackForm(options: { formID: string; }): Promise<any> {

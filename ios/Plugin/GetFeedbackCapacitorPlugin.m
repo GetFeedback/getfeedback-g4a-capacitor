@@ -5,6 +5,7 @@
 // each method the plugin supports using the CAP_PLUGIN_METHOD macro.
 CAP_PLUGIN(GetFeedbackCapacitorPlugin, "GetFeedbackCapacitor",
            CAP_PLUGIN_METHOD(initialize, CAPPluginReturnNone);
+           CAP_PLUGIN_METHOD(standardEvents, CAPPluginReturnCallback);
            CAP_PLUGIN_METHOD(loadFeedbackForm, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(sendEvent, CAPPluginReturnPromise);
            CAP_PLUGIN_METHOD(setDebugEnabled, CAPPluginReturnNone);
