@@ -14,6 +14,8 @@ This Capacitor bridge to the Native GetFeedback / Usabilla SDK allows you to loa
 
 ## Installation
 
+**Note : We have introducing a new feature `Standard Events` [Click here](https://support.usabilla.com/hc/en-us/articles/4747575452562) to read more about Standard Events.**
+
 The installation of this SDK consists of two parts, one part for your projects a whole and the second part for iOS(#ios) and Android(#android) specifically. To install the GetFeedback SDK into your Ionic Application:
 Installation
 
@@ -39,6 +41,7 @@ To read in detail about all the features for the SDK
 <docgen-index>
 
 * [`initialize(...)`](#initialize)
+* [`standardEvents(...)`](#standardevents)
 * [`setDebugEnabled(...)`](#setdebugenabled)
 * [`setCustomVariables(...)`](#setcustomvariables)
 * [`loadFeedbackForm(...)`](#loadfeedbackform)
@@ -51,6 +54,7 @@ To read in detail about all the features for the SDK
 * [`removeCachedForms()`](#removecachedforms)
 * [`setDataMasking(...)`](#setdatamasking)
 * [`getDefaultDataMasks()`](#getdefaultdatamasks)
+* [Type Aliases](#type-aliases)
 
 </docgen-index>
 
@@ -66,6 +70,21 @@ initialize(options: { appID: string; }) => void
 | Param         | Type                            |
 | ------------- | ------------------------------- |
 | **`options`** | <code>{ appID: string; }</code> |
+
+--------------------
+
+
+### standardEvents(...)
+
+```typescript
+standardEvents(callback: standardEventsCallback) => Promise<CallbackID>
+```
+
+| Param          | Type                                                                      |
+| -------------- | ------------------------------------------------------------------------- |
+| **`callback`** | <code><a href="#standardeventscallback">standardEventsCallback</a></code> |
+
+**Returns:** <code>Promise&lt;string&gt;</code>
 
 --------------------
 
@@ -216,6 +235,19 @@ getDefaultDataMasks() => Promise<any>
 **Returns:** <code>Promise&lt;any&gt;</code>
 
 --------------------
+
+
+### Type Aliases
+
+
+#### standardEventsCallback
+
+<code>(response: any, error?: any): void</code>
+
+
+#### CallbackID
+
+<code>string</code>
 
 </docgen-api>
 

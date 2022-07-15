@@ -11,6 +11,7 @@ import UIKit
 public class GetFeedbackCapacitorPlugin: CAPPlugin {
     var passiveCallID: String?
     var campaignCallID: String?
+    var standardEventsCallID: String?
 
     let getfeedback = Usabilla.self
     override public func load() {
@@ -22,6 +23,12 @@ public class GetFeedbackCapacitorPlugin: CAPPlugin {
     @objc func initialize(_ call: CAPPluginCall) {
         let appID = call.getString("appID") ?? ""
         getfeedback.initialize(appID: appID)
+    }
+    
+    @objc func standardEvents(_ call: CAPPluginCall) {
+        self.bridge?.saveCall(call)
+        call.keepAlive = true
+        standardEventsCallID = call.callbackId
     }
     
     @objc func loadFeedbackForm(_ call: CAPPluginCall) {
@@ -146,6 +153,11 @@ extension GetFeedbackCapacitorPlugin: UsabillaDelegate {
         if let callID = campaignCallID, let call = bridge?.savedCall(withID: callID) {
             call.resolve(["result": rnResult, "isRedirectToAppStoreEnabled": isRedirectToAppStoreEnabled])
             bridge?.releaseCall(call)
+            return
+        }
+        
+        if let callEventID = standardEventsCallID, let callStandardEvent = bridge?.savedCall(withID: callEventID) {
+            callStandardEvent.resolve(["result": rnResult, "isRedirectToAppStoreEnabled": isRedirectToAppStoreEnabled])
         }
     }
 }

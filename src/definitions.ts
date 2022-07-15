@@ -1,5 +1,10 @@
+export type standardEventsCallback = (response: any, error?: any) => void;
+
+export type CallbackID = string;
+
 export interface GetFeedbackCapacitorPlugin {
   initialize(options: { appID: string }): void;
+  standardEvents(callback: standardEventsCallback): Promise<CallbackID>;
   setDebugEnabled(options: { debugEnabled: boolean }): void;
   setCustomVariables(options: { customVariables: any }): void;
   loadFeedbackForm(options: { formID: string }): Promise<any>;
