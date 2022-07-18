@@ -41,7 +41,8 @@
     "build": "npm run clean && npm run docgen && tsc && rollup -c rollup.config.js",
     "clean": "rimraf ./dist",
     "watch": "tsc --watch",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "semantic-release": "semantic-release"
   },
   "devDependencies": {
     "@capacitor/android": "^3.0.0",
@@ -51,7 +52,7 @@
     "@ionic/eslint-config": "^0.3.0",
     "@ionic/prettier-config": "^1.0.1",
     "@ionic/swiftlint-config": "^1.1.2",
-    "semantic-release": "^17.2.3",
+    "semantic-release": "^19.0.3",
     "eslint": "^7.11.0",
     "prettier": "~2.2.0",
     "prettier-plugin-java": "~1.0.0",
