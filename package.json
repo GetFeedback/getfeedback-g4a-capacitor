@@ -19,6 +19,9 @@
     "type": "git",
     "url": "git+https://github.com/GetFeedback/getfeedback-g4a-capacitor.git"
   },
+  "release": {
+      "branches": ["main"]
+    },
   "bugs": {
     "url": "https://github.com/GetFeedback/getfeedback-g4a-capacitor/issues"
   },
