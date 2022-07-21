@@ -14,7 +14,7 @@ This Capacitor bridge to the Native GetFeedback / Usabilla SDK allows you to loa
 
 ## Installation
 
-**Note : We have introducing a new feature `Standard Events` [Click here](https://support.usabilla.com/hc/en-us/articles/4747575452562) to read more about Standard Events.**
+**Note : We have introducing a new feature `Standard Events` from v1.1.0 onwards [Click here](https://support.usabilla.com/hc/en-us/articles/4747575452562) to read more about Standard Events.**
 
 The installation of this SDK consists of two parts, one part for your projects a whole and the second part for iOS(#ios) and Android(#android) specifically. To install the GetFeedback SDK into your Ionic Application:
 Installation
