@@ -7,36 +7,31 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.util.Log;
-
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
-
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
 import com.getcapacitor.PluginCall;
 import com.getcapacitor.PluginMethod;
 import com.getcapacitor.annotation.CapacitorPlugin;
-
 import com.usabilla.sdk.ubform.UbConstants;
 import com.usabilla.sdk.ubform.Usabilla;
 import com.usabilla.sdk.ubform.UsabillaFormCallback;
 import com.usabilla.sdk.ubform.sdk.entity.FeedbackResult;
 import com.usabilla.sdk.ubform.sdk.form.FormClient;
-
-import org.jetbrains.annotations.NotNull;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import org.jetbrains.annotations.NotNull;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 @CapacitorPlugin(name = "GetFeedbackCapacitor")
 public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCallback {
@@ -66,7 +61,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
                     call.resolve(result);
                     bridge.releaseCall(call);
                 } else {
-                    PluginCall callStandardEvent =  bridge.getSavedCall(standardEventsCallID);
+                    PluginCall callStandardEvent = bridge.getSavedCall(standardEventsCallID);
                     callStandardEvent.resolve(result);
                 }
             }
@@ -95,8 +90,12 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
     @Override
     public void load() {
         super.load();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(closingFormReceiver, new IntentFilter(UbConstants.INTENT_CLOSE_FORM));
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(closingCampaignReceiver, new IntentFilter(UbConstants.INTENT_CLOSE_CAMPAIGN));
+        LocalBroadcastManager
+            .getInstance(getActivity())
+            .registerReceiver(closingFormReceiver, new IntentFilter(UbConstants.INTENT_CLOSE_FORM));
+        LocalBroadcastManager
+            .getInstance(getActivity())
+            .registerReceiver(closingCampaignReceiver, new IntentFilter(UbConstants.INTENT_CLOSE_CAMPAIGN));
     }
 
     @Override
@@ -130,7 +129,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         String formID = call.getString("formID");
         bridge.saveCall(call);
         passiveCallbackId = call.getCallbackId();
-        getfeedback.loadFeedbackForm(formID, null, null,this);
+        getfeedback.loadFeedbackForm(formID, null, null, this);
     }
 
     @PluginMethod
@@ -167,7 +166,7 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         JSObject customVars = call.getObject("customVariables");
         final HashMap<String, Object> customVariables = new HashMap<>();
         if (customVars != null) {
-            for (Iterator<String> it = customVars.keys(); it.hasNext(); ) {
+            for (Iterator<String> it = customVars.keys(); it.hasNext();) {
                 final String key = it.next();
                 Object value;
                 try {
@@ -215,7 +214,6 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         return false;
     }
 
-
     @PluginMethod
     public void setDebugEnabled(@NonNull PluginCall call) {
         final boolean debugEnabled = call.getBoolean("debugEnabled");
@@ -224,8 +222,8 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
 
     @PluginMethod
     public void setDataMasking(@NonNull PluginCall call) {
-        JSArray masks = call.getArray("masks",defaultDataMasks);
-        String character = call.getString("character",defaultMaskCharacter);
+        JSArray masks = call.getArray("masks", defaultDataMasks);
+        String character = call.getString("character", defaultMaskCharacter);
         List<String> listMasks = null;
         try {
             listMasks = masks.toList();
@@ -259,7 +257,10 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         form = formClient.getFragment();
         final Activity activity = getActivity();
         if (activity instanceof FragmentActivity && form != null) {
-            ((FragmentActivity) activity).getSupportFragmentManager().beginTransaction().replace(android.R.id.content, form, FRAGMENT_TAG).commit();
+            ((FragmentActivity) activity).getSupportFragmentManager()
+                .beginTransaction()
+                .replace(android.R.id.content, form, FRAGMENT_TAG)
+                .commit();
             form = null;
         }
     }
