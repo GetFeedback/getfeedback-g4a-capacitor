@@ -1,6 +1,6 @@
 {
   "name": "getfeedback-capacitor",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "GetFeedback Capacitor is wrapper for GetFeedback SDK.",
   "main": "dist/plugin.cjs.js",
   "module": "dist/esm/index.js",
@@ -20,8 +20,10 @@
     "url": "git+https://github.com/GetFeedback/getfeedback-g4a-capacitor.git"
   },
   "release": {
-      "branches": ["main"]
-    },
+    "branches": [
+      "main"
+    ]
+  },
   "bugs": {
     "url": "https://github.com/GetFeedback/getfeedback-g4a-capacitor/issues"
   },
@@ -48,24 +50,25 @@
     "semantic-release": "semantic-release"
   },
   "devDependencies": {
-    "@capacitor/android": "^3.0.0",
-    "@capacitor/core": "^3.0.0",
+    "@capacitor/android": "^4.0.0",
+    "@capacitor/cli": "^4.7.0",
+    "@capacitor/core": "^4.0.0",
     "@capacitor/docgen": "^0.0.18",
-    "@capacitor/ios": "^3.0.0",
+    "@capacitor/ios": "^4.0.0",
     "@ionic/eslint-config": "^0.3.0",
     "@ionic/prettier-config": "^1.0.1",
     "@ionic/swiftlint-config": "^1.1.2",
-    "semantic-release": "^19.0.3",
     "eslint": "^7.11.0",
     "prettier": "~2.2.0",
     "prettier-plugin-java": "~1.0.0",
     "rimraf": "^3.0.2",
     "rollup": "^2.32.0",
+    "semantic-release": "^19.0.3",
     "swiftlint": "^1.0.1",
     "typescript": "~4.0.3"
   },
   "peerDependencies": {
-    "@capacitor/core": "^3.0.0"
+    "@capacitor/core": "^4.0.0"
   },
   "prettier": "@ionic/prettier-config",
   "swiftlint": "@ionic/swiftlint-config",
