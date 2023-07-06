@@ -9,10 +9,12 @@ import android.graphics.Bitmap;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
 import androidx.fragment.app.FragmentManager;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
+import androidx.lifecycle.LifecycleOwner;
+import androidx.lifecycle.Observer;
 
 import com.getcapacitor.JSArray;
 import com.getcapacitor.JSObject;
@@ -26,6 +28,8 @@ import com.usabilla.sdk.ubform.Usabilla;
 import com.usabilla.sdk.ubform.UsabillaFormCallback;
 import com.usabilla.sdk.ubform.sdk.entity.FeedbackResult;
 import com.usabilla.sdk.ubform.sdk.form.FormClient;
+import com.usabilla.sdk.ubform.sdk.form.FormType;
+import com.usabilla.sdk.ubform.utils.ClosingFormData;
 
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONException;
@@ -56,54 +60,48 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
     private String campaignCallbackId;
     private String standardEventsCallID;
 
-    private BroadcastReceiver closingCampaignReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null) {
-                final JSObject result = prepareResult(intent, FeedbackResult.INTENT_FEEDBACK_RESULT_CAMPAIGN);
-                PluginCall call = bridge.getSavedCall(campaignCallbackId);
-                if (call != null) {
-                    call.resolve(result);
-                    bridge.releaseCall(call);
-                } else {
-                    PluginCall callStandardEvent =  bridge.getSavedCall(standardEventsCallID);
-                    callStandardEvent.resolve(result);
-                }
-            }
+  private final Observer<ClosingFormData> closingObserver = closingFormData -> {
+    if (closingFormData.getFormType().equals(FormType.PASSIVE_FEEDBACK)) {
+      // The passive feedback form needs to be closed and the feedback result is returned
+      final JSObject result = prepareResult(closingFormData.getFeedbackResult(),"results");
+      PluginCall call = bridge.getSavedCall(passiveCallbackId);
+      call.resolve(result);
+      bridge.releaseCall(call);
+      final Activity activity = getActivity();
+      if (activity instanceof FragmentActivity) {
+        final FragmentManager supportFragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
+        final Fragment fragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG);
+        if (fragment != null) {
+          supportFragmentManager.beginTransaction().remove(fragment).commit();
         }
-    };
-    private BroadcastReceiver closingFormReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            if (intent != null) {
-                final JSObject result = prepareResult(intent, FeedbackResult.INTENT_FEEDBACK_RESULT);
-                PluginCall call = bridge.getSavedCall(passiveCallbackId);
-                call.resolve(result);
-                bridge.releaseCall(call);
-            }
-            final Activity activity = getActivity();
-            if (activity instanceof FragmentActivity) {
-                final FragmentManager supportFragmentManager = ((FragmentActivity) activity).getSupportFragmentManager();
-                final Fragment fragment = supportFragmentManager.findFragmentByTag(FRAGMENT_TAG);
-                if (fragment != null) {
-                    supportFragmentManager.beginTransaction().remove(fragment).commit();
-                }
-            }
+      }
+      Log.e(LOG_TAG, "Android activity null when removing form fragment");
+    } else if (closingFormData.getFormType().equals(FormType.CAMPAIGN)) {
+      // The campaign feedback form has been closed and the feedback result is returned
+        final JSObject result = prepareResult(closingFormData.getFeedbackResult(),"result");
+        PluginCall call = bridge.getSavedCall(campaignCallbackId);
+        if (call != null) {
+          call.resolve(result);
+          bridge.releaseCall(call);
+        } else {
+          if(standardEventsCallID != null) {
+            PluginCall callStandardEvent =  bridge.getSavedCall(standardEventsCallID);
+            callStandardEvent.resolve(result);
+          }
         }
-    };
+    }
+  };
 
     @Override
     public void load() {
         super.load();
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(closingFormReceiver, new IntentFilter(UbConstants.INTENT_CLOSE_FORM));
-        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(closingCampaignReceiver, new IntentFilter(UbConstants.INTENT_CLOSE_CAMPAIGN));
+      final AppCompatActivity activity = (AppCompatActivity) getActivity();
+      Usabilla.INSTANCE.getClosingData().observe((LifecycleOwner) activity, closingObserver);
     }
 
     @Override
     public void handleOnDestroy() {
         super.handleOnDestroy();
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(closingFormReceiver);
-        LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(closingCampaignReceiver);
     }
 
     @PluginMethod
@@ -264,17 +262,15 @@ public class GetFeedbackCapacitorPlugin extends Plugin implements UsabillaFormCa
         }
     }
 
-    private JSObject prepareResult(Intent intent, String feedbackResultType) {
+    private JSObject prepareResult(FeedbackResult res, String feedbackResultType) {
         final JSObject result = new JSObject();
         final JSObject resultData = new JSObject();
-        String res = (feedbackResultType == FeedbackResult.INTENT_FEEDBACK_RESULT) ? "results" : "result";
-        resultData.put(res, getResult(intent, feedbackResultType));
+        resultData.put(feedbackResultType, getResult(res));
         result.put("completed", resultData);
         return result;
     }
 
-    private JSObject getResult(Intent intent, String feedbackResultType) {
-        final FeedbackResult res = intent.getParcelableExtra(feedbackResultType);
+    private JSObject getResult(FeedbackResult res) {
         final JSObject result = new JSObject();
         result.put(KEY_RATING, res.getRating());
         result.put(KEY_ABANDONED_PAGE_INDEX, res.getAbandonedPageIndex());
