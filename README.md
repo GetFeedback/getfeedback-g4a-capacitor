@@ -253,4 +253,4 @@ getDefaultDataMasks() => Promise<any>
 
 ## Support
 
-If you need help with implementation, want to report an issue or have a question, please contact our support team via support@usabilla.com. When contacting our support team, be sure to include your Usabilla account name and the name of your Customer Success Manager.
+If you need help, want to report an issue, or have a question please reach out to the support team via our [Help Center](https://help.surveymonkey.com/en/contact/#getfeedback) or email [support@usabilla.com](mailto:support@usabilla.com)
