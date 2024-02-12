@@ -4,7 +4,7 @@
 # GetFeedback for Apps - Capacitor
 
 GetFeedback for Apps allows you to collect feedback from your users with great ease and flexibility.
-This Capacitor bridge to the Native GetFeedback / Usabilla SDK allows you to load passive feedback forms or campaigns and submit results from an Ionic Capcitor app. This release uses the GetFeedback / Usabilla SDK for ios v6.10+ and android v7.+ .
+This Capacitor bridge to the Native GetFeedback / Usabilla SDK allows you to load passive feedback forms or campaigns and submit results from an Ionic Capcitor app. This release uses the GetFeedback / Usabilla SDK for ios v6.10+ and android v7.+.
 
 - [GetFeedback for Apps - Capacitor](#getfeedback-for-apps---capacitor)
   - [Installation](#installation)
